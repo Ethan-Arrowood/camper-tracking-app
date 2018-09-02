@@ -77,7 +77,12 @@ class TestManager extends React.Component {
   )
 
   _checkBoxCellRenderer = ({ columnIndex, key, rowIndex, style }) => (
-    <div key={key} style={style} className="checkboxCell">
+    <div
+      // prettier-ignore
+      key={`${this.state.campers[rowIndex].id}-${this.state.tests[columnIndex]}-${this.state.rank}`}
+      style={style}
+      className="checkboxCell"
+    >
       <input
         type="checkbox"
         name={`${this.state.campers[rowIndex].id}-${columnIndex}`}
