@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'client.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -14,33 +14,33 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.svg$/,
         use: [
           {
-            loader: "babel-loader"
+            loader: 'babel-loader',
           },
           {
-            loader: "react-svg-loader",
+            loader: 'react-svg-loader',
             options: {
-              jsx: true
-            }
-          }
-        ]
-      }
-    ]
+              jsx: true,
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/public/index.html',
-      favicon: './src/public/viking-ship.png'
-    })
-  ]
+      favicon: './src/public/viking-ship.png',
+    }),
+  ],
 }

@@ -10,9 +10,11 @@
  * TODO(@Ethan-Arrowood) : Set up production level
  * logging instance. Use Pino maybe?
  * */
-const Fastify = require("fastify")
-const fastify = process.env.NODE_ENV === 'production' ?
-  Fastify() : Fastify({ logger: { prettyPrint: true } })
+const Fastify = require('fastify')
+const fastify =
+  process.env.NODE_ENV === 'production'
+    ? Fastify()
+    : Fastify({ logger: { prettyPrint: true } })
 
 // Standard module imports
 const path = require('path')
@@ -24,11 +26,11 @@ const path = require('path')
  * 
  * TODO(@Ethan-Arrowood) : Figure out authentication
  * */
-const neo4j = require("neo4j-driver").v1
+const neo4j = require('neo4j-driver').v1
 const driver = neo4j.driver(
-  "bolt://localhost",
-  neo4j.auth.basic("neo4j", "abc123!"),
-  { disableLosslessIntegers: true },
+  'bolt://localhost',
+  neo4j.auth.basic('neo4j', 'abc123!'),
+  { disableLosslessIntegers: true }
 )
 
 const PORT = process.env.PORT || 8080
@@ -36,7 +38,7 @@ const PORT = process.env.PORT || 8080
 // Only serve the SPA when in production mode
 if (process.env.NODE_ENV === 'production') {
   fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, 'dist/')
+    root: path.join(__dirname, 'dist/'),
   })
 
   fastify.get('/', (request, reply) => {
@@ -55,13 +57,13 @@ fastify.register(require('./routes/api.js'), { prefix: '/api' })
  * the session be initiated per auth sess; not every request.
  * 
  * */
-fastify.addHook("onRequest", (req, res, next) => {
+fastify.addHook('onRequest', (req, res, next) => {
   if (req.url === '/') next()
   try {
-    if (fastify.hasRequestDecorator("n4jSession")) {
+    if (fastify.hasRequestDecorator('n4jSession')) {
       req.n4jSession = driver.session()
     } else {
-      fastify.decorateRequest("n4jSession", driver.session())
+      fastify.decorateRequest('n4jSession', driver.session())
     }
   } catch (err) {
     fastify.log.error(err)
@@ -69,7 +71,7 @@ fastify.addHook("onRequest", (req, res, next) => {
   next()
 })
 
-fastify.addHook("onSend", (req, res, payload, next) => {
+fastify.addHook('onSend', (req, res, payload, next) => {
   if (req.url === '/') next()
   try {
     req.n4jSession.close()
@@ -79,7 +81,7 @@ fastify.addHook("onSend", (req, res, payload, next) => {
   next()
 })
 
-fastify.addHook("onClose", (instance, done) => {
+fastify.addHook('onClose', (instance, done) => {
   if (driver) driver.close()
   done()
 })
