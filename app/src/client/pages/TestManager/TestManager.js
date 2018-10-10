@@ -94,7 +94,7 @@ class TestManager extends React.Component {
   )
 
   _submitForm = ({ department, rank }, form) => {
-    let query = `/tests?department=${department}&rank=${rank}`
+    let query = `/api/tests?department=${department}&rank=${rank}`
 
     return this.fetchData(query).then(res => {
       console.log(res)
@@ -103,7 +103,7 @@ class TestManager extends React.Component {
   }
 
   _fetchCampers = searchValue => {
-    let query = `/campers`
+    let query = `/api/campers`
     if (searchValue) query.concat(`?search=${searchValue}`)
     return this.fetchData(query).then(res => {
       console.log(res)
@@ -159,7 +159,7 @@ class TestManager extends React.Component {
 
   postTestData = async payloads => {
     await asyncForEach(payloads, async payload => {
-      const req = new Request('/check-off-tests', {
+      const req = new Request('/api/check-off-tests', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',

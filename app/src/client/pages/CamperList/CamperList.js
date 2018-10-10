@@ -44,7 +44,7 @@ class CamperList extends React.Component {
 
   fetchCampers = searchValue => {
     if (this._fetchCampersRequest === null) {
-      let query = '/campers?sac=True'
+      let query = '/api/campers?sac=True'
       if (searchValue) query += `&search=${searchValue}`
       this._fetchCampersRequest = this.fetchCamperData(query).then(res => {
         this._fetchCampersRequest = null
@@ -65,12 +65,6 @@ class CamperList extends React.Component {
 
   componentDidMount() {
     this.fetchCampers()
-  }
-
-  componentWillUnmount() {
-    if (this._fetchCampersRequest) {
-      this._fetchCampersRequest.cancel()
-    }
   }
 
   render() {

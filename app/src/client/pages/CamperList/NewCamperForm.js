@@ -50,7 +50,7 @@ class NewCamperForm extends React.Component {
   }
 
   onSubmit = (values, form) => {
-    const createCamperRequest = new Request('/campers', {
+    const createCamperRequest = new Request('/api/campers', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

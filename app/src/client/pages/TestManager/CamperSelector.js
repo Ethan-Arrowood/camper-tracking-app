@@ -21,7 +21,7 @@ export default class CamperSelector extends React.Component {
       this.setState(
         ({ isLoading }) => ({ isLoading: !isLoading }),
         () => {
-          let query = `/campers?tests=true`
+          let query = `/api/campers?tests=true`
           if (searchValue) query += `?search=${searchValue}`
           this.fetchCamperData(query).then(({ campers }) => {
             this.setState(({ isLoading }) => ({
